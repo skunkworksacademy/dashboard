@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skunkworks Terminal Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="scanline"></div>
+        <div class="header">
+            <div class="ascii-art">
+   _____  _                 _     _ _ _            _        
+  / ____|| |               | |   | | | |          | |       
+ | (___  | | ___   _ _ __ | | __| | | | ___  _ __| | _____ 
+  \___ \ | |/ / | | | '_ \| |/ _` | | |/ _ \| '__| |/ / __|
+  ____) |   <| |_| | | | | | (_| | | | (_) | |  |   <\__ \
+ |_____/|_|\_\\__,_|_| |_|_|\__,_|_|_|\___/|_|  |_|\_\___/
+            </div>
+            <h2>TERMINAL ACCESS v1.0.2</h2>
+            <p>AUTHENTICATED USER: ADMIN</p>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-box">
+                <h3>SYSTEM STATUS</h3>
+                <p>CPU: <span id="cpuStatus">32</span>%</p>
+                <p>MEM: <span id="memStatus">47</span>%</p>
+                <p>DISK: <span id="diskStatus">63</span>%</p>
+            </div>
+            <div class="stat-box">
+                <h3>ACTIVE USERS</h3>
+                <p>STUDENTS: <span id="studentCount">127</span></p>
+                <p>INSTRUCTORS: <span id="instructorCount">12</span></p>
+                <p>ADMINS: <span id="adminCount">3</span></p>
+            </div>
+            <div class="stat-box">
+                <h3>COURSE STATUS</h3>
+                <p>ACTIVE: <span id="activeCourses">15</span></p>
+                <p>PENDING: <span id="pendingCourses">7</span></p>
+                <p>COMPLETED: <span id="completedCourses">23</span></p>
+            </div>
+        </div>
+        
+        <div class="terminal">
+            <div id="terminal-content">
+                <p>> INITIALIZING SYSTEM...</p>
+            </div>
+            <p>> <span class="blink">█</span></p>
+        </div>
+    </div>
+    <script src="js/main.js"></script>
+</body>
+</html>
