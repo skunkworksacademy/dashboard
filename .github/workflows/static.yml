@@ -1,0 +1,92 @@
+name: Dashboard Setup and Deployment
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 1' # Runs every Monday at midnight UTC
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up project structure
+        run: |
+          mkdir -p dashboard/{css,js,tests}
+          touch dashboard/index.html dashboard/css/style.css dashboard/js/main.js dashboard/tests/test.js dashboard/README.md
+
+      - name: Create index.html
+        run: |
+          cat > dashboard/index.html << 'EOL'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Skunkworks Dashboard</title>
+              <link rel="stylesheet" href="css/style.css">
+          </head>
+          <body>
+              <div class="container">
+                  <div class="scanline"></div>
+                  <div class="header">
+                      <h1>Skunkworks Academy</h1>
+                  </div>
+                  <div class="ascii-art">
+                      <pre>
+     _______  __   __  _______  __   __  _     _  __   __  _______  _______ 
+    |       ||  | |  ||   _   ||  | |  || | _ | ||  | |  ||       ||       |
+    |    ___||  |_|  ||  |_|  ||  |_|  || || || ||  |_|  ||    ___||  _____|
+    |   |___ |       ||       ||       ||       ||       ||   |___ | |_____ 
+    |    ___||       ||       ||       ||       ||_     _||    ___||_____  |
+    |   |___ |   _   ||   _   | |     | |   _   |  |   |  |   |___  _____| |
+    |_______||__| |__||__| |__|  |___|  |__| |__|  |___|  |_______||_______|
+                      </pre>
+                  </div>
+                  <div class="stats">
+                      <div class="stat-box">Users: 120</div>
+                      <div class="stat-box">Courses: 15</div>
+                      <div class="stat-box">Active Sessions: 30</div>
+                  </div>
+                  <div class="terminal">
+                      <p>Welcome to Skunkworks Academy Dashboard!</p>
+                  </div>
+              </div>
+              <script src="js/main.js"></script>
+          </body>
+          </html>
+          EOL
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'dashboard'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
